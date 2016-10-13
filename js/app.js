@@ -23,7 +23,7 @@ var showQuestion = function(question) {
 	var asker = result.find('.asker');
 	
 		asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
+		'href=//stackoverflow.com/users/' + question.owner.user_id + ' >' +
 		question.owner.display_name +
 		'</a></p>' +
 		'<p>Reputation: ' + question.owner.reputation + '</p>' 
@@ -45,7 +45,7 @@ var showUser = function(tag) {
 	var asker = result.find('.asker');
 
 	asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + tag.user.user_id + ' >' +
+		'href=//stackoverflow.com/users/' + tag.user.user_id + ' >' +
 		tag.user.display_name +
 		'</a></p>' +
 		'<p>Reputation: ' + tag.user.reputation + '</p>' 
@@ -84,7 +84,7 @@ var getUnanswered = function(tags) {
 	};
 	
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/questions/unanswered",
+		url: "//api.stackexchange.com/2.2/questions/unanswered",
 		data: request,
 		dataType: "jsonp",//use jsonp to avoid cross origin issues
 		type: "GET",
@@ -117,7 +117,7 @@ var getInspired = function(tag){
 	};
 
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/tags/" + tag +"/top-answerers/all_time",
+		url: "//api.stackexchange.com/2.2/tags/" + tag +"/top-answerers/all_time",
 		data: request,
 		dataType: "jsonp",
 		type: "GET"
