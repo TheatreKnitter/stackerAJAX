@@ -46,3 +46,7 @@
 	background-color: #F78181;
 	padding: 1em;
 }
+
+.tag {
+	border:2px solid red; 
+}

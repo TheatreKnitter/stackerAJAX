@@ -21,23 +21,40 @@ var showQuestion = function(question) {
 
 	// set some properties related to asker
 	var asker = result.find('.asker');
-	if (question.owner !== 'undefined'){
-	asker.html('<p>Name: <a target="_blank" '+
+	
+		asker.html('<p>Name: <a target="_blank" '+
 		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
 		question.owner.display_name +
 		'</a></p>' +
-		'<p>Reputation: ' + question.owner.reputation + '</p>'
+		'<p>Reputation: ' + question.owner.reputation + '</p>' 
+
 	);
-	} else {
-		asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + question.user.user_id + ' >' +
-		question.user.display_name +
-		'</a></p>' +
-		'<p>Reputation: ' + question.user.reputation + '</p>'
-	);
-	}
+	
 	return result;
 };
+
+var showUser = function(tag) {
+	var result = $('.templates2 .tag').clone();
+	
+
+	// set the .viewed for question property in result
+	var viewed = result.find('.viewed');
+	viewed.text(tag.view_count);
+
+// set some properties related to asker
+	var asker = result.find('.asker');
+
+	asker.html('<p>Name: <a target="_blank" '+
+		'href=http://stackoverflow.com/users/' + tag.user.user_id + ' >' +
+		tag.user.display_name +
+		'</a></p>' +
+		'<p>Reputation: ' + tag.user.reputation + '</p>' 
+		
+	);
+	
+	return result;
+};
+
 
 
 // this function takes the results object from StackOverflow
@@ -72,6 +89,7 @@ var getUnanswered = function(tags) {
 		dataType: "jsonp",//use jsonp to avoid cross origin issues
 		type: "GET",
 	})
+
 	.done(function(result){ //this waits for the ajax to return with a succesful promise object
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
@@ -104,6 +122,7 @@ var getInspired = function(tag){
 		dataType: "jsonp",
 		type: "GET"
 	})
+
 	.done(function(result){ //this waits for the ajax to return with a succesful promise object
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
@@ -111,8 +130,8 @@ var getInspired = function(tag){
 		//$.each is a higher order function. It takes an array and a function as an argument.
 		//The function is executed once for each item in the array.
 		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
-			$('.results').append(question);
+			var user = showUser(item);
+			$('.results').append(user);
 		});
 	})
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
@@ -121,26 +140,8 @@ var getInspired = function(tag){
 	});
 }
 
-/*function results(){
-	.done(function(result){ //this waits for the ajax to return with a succesful promise object
-		var searchResults = showSearchResults(request.tagged, result.items.length);
-
-		$('.search-results').html(searchResults);
-		//$.each is a higher order function. It takes an array and a function as an argument.
-		//The function is executed once for each item in the array.
-		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
-			$('.results').append(question);
-		});
-	})
-	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
-		var errorElem = showError(error);
-		$('.search-results').append(errorElem);
-	});
-};*/
-
 $(document).ready( function() {
-	$('.unanswered-getter').submit( function(e){
+	$('.unanswered-getter').submit(function(e){
 		e.preventDefault();
 		// zero out results if previous search has run
 		$('.results').html('');
@@ -153,8 +154,8 @@ $(document).ready( function() {
 	$('.inspiration-getter').submit(function(e){
 		e.preventDefault();
 		$('.results').html('');
-		var answerers = $(this).find("input[name='answerers']").val
-		getInspired()
+		var answerers = $(this).find("input[name='answerers']").val();
+		getInspired(answerers)
 
 	})	
 	
